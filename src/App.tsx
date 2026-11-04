@@ -4,8 +4,9 @@ import { Header } from './components/Header';
 import { Footer } from './components/Footer';
 import { HomePage } from './pages/HomePage';
 import { AboutPage } from './pages/AboutPage';
-import { ServicesPage } from './pages/ServicesPage';
-import { ContactPage } from './pages/ContactPage';
+import { AcademicPage } from './pages/AcademicPage';
+import { PhDPage } from './pages/PhDPage';
+import { CorporatePage } from './pages/CorporatePage';
 import { ConsultationModal } from './components/ConsultationModal';
 import { ServiceDetailModal } from './components/ServiceDetailModal';
 import { LoadingScreen } from './components/LoadingScreen';
@@ -71,24 +72,34 @@ export function App() {
 
         {activePage === 'about' && (
           <AboutPage
+            setActivePage={handleNavChange}
             onBookConsultation={() => handleOpenConsultation()}
           />
         )}
 
-        {(activePage === 'services' || activePage === 'workshops') && (
-          <ServicesPage
-            filterCategory={activePage === 'workshops' ? 'corporate' : 'all'}
+        {activePage === 'academic' && (
+          <AcademicPage
             onSelectService={(service) => setSelectedService(service)}
-            onBookConsultation={() => handleOpenConsultation()}
+            onBookConsultation={(title) => handleOpenConsultation(title)}
+            onNavigateToPhD={() => handleNavChange('phd')}
           />
         )}
 
-        {activePage === 'contact' && (
-          <ContactPage />
+        {activePage === 'phd' && (
+          <PhDPage
+            onBookConsultation={(title) => handleOpenConsultation(title)}
+          />
+        )}
+
+        {activePage === 'corporate' && (
+          <CorporatePage
+            onSelectService={(service) => setSelectedService(service)}
+            onBookConsultation={(title) => handleOpenConsultation(title)}
+          />
         )}
       </main>
 
-      {/* Minimal Footer */}
+      {/* Heritage Footer */}
       <Footer 
         setActivePage={handleNavChange}
         onBookConsultation={() => handleOpenConsultation()}
@@ -101,12 +112,17 @@ export function App() {
         initialServiceId={initialServiceForModal}
       />
 
-      {/* Detailed Service Drawer Modal */}
-      <ServiceDetailModal
-        service={selectedService}
-        onClose={() => setSelectedService(null)}
-        onBookService={(title) => handleOpenConsultation(title)}
-      />
+      {/* Full-Screen Detailed Service Inspection Modal */}
+      {selectedService && (
+        <ServiceDetailModal
+          service={selectedService}
+          onClose={() => setSelectedService(null)}
+          onBookConsultation={(serviceTitle) => {
+            setSelectedService(null);
+            handleOpenConsultation(serviceTitle);
+          }}
+        />
+      )}
     </div>
   );
 }

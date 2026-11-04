@@ -7,18 +7,30 @@ export default {
   theme: {
     extend: {
       colors: {
-        background: '#FFFFFF',
+        background: '#FAF8F5',
         foreground: '#111111',
-        secondary: '#666666',
+        secondary: '#555555',
         navy: {
           DEFAULT: '#14213D',
-          hover: '#0E172C',
+          hover: '#0C1527',
+          soft: '#1B2C4F',
         },
-        border: '#ECECEC',
+        gold: {
+          DEFAULT: '#C5A880',
+          dark: '#9E7D47',
+          light: '#EADBC8',
+        },
+        border: '#E2E4E8',
+        card: {
+          DEFAULT: '#EFEFEF', // Distinct, clean lite grey for cards
+          hover: '#E5E7EB',
+          lite: '#F2F3F5',
+        },
         surface: {
-          DEFAULT: '#FFFFFF',
-          hover: '#F7F7F7',
-          muted: '#FAFAFA',
+          DEFAULT: '#EFEFEF',
+          card: '#EFEFEF',
+          hover: '#E5E7EB',
+          muted: '#E5E7EB',
         }
       },
       fontFamily: {
@@ -26,23 +38,17 @@ export default {
         heading: ['Geist', 'Inter', 'sans-serif'],
       },
       borderRadius: {
-        'card': '18px',
+        'card': '16px',
         'btn': '12px',
       },
       maxWidth: {
-        'grid': '1320px',
-        'content': '1080px',
+        'grid': '1280px',
+        'content': '1040px',
         'prose-custom': 'none',
       },
       lineHeight: {
         'relaxed-custom': '1.7',
       },
-      transitionTimingFunction: {
-        'apple': 'cubic-bezier(0.16, 1, 0.3, 1)',
-      },
-      transitionDuration: {
-        '200': '200ms',
-      }
     },
   },
   plugins: [],

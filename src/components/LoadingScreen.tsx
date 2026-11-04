@@ -95,7 +95,7 @@ export const LoadingScreen: React.FC<LoadingScreenProps> = ({
 
         <div className="flex flex-col items-center animate-fadeIn">
           <span className="text-xs md:text-sm tracking-[0.35em] text-white/80 uppercase font-heading font-medium">
-            THE GUIDE • ACADEMIC EXCELLENCE
+            THE GUIDE | ACADEMIC EXCELLENCE
           </span>
         </div>
       </div>

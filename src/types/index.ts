@@ -1,4 +1,4 @@
-export type NavPage = 'home' | 'about' | 'services' | 'workshops' | 'contact';
+export type NavPage = 'home' | 'about' | 'academic' | 'phd' | 'corporate';
 
 export interface ServiceItem {
   id: string;
@@ -10,7 +10,42 @@ export interface ServiceItem {
   audience: string[];
   outcomes: string[];
   formatOptions: string[];
+  pricingPerHour?: string;
   bgImage?: string;
+}
+
+export interface PhDServiceItem {
+  id: string;
+  title: string;
+  shortDesc: string;
+  details: string[];
+  pricingPerHour: string;
+  iconName: string;
+}
+
+export interface JournalServiceItem {
+  id: string;
+  title: string;
+  shortDesc: string;
+  indexingCovered: string[];
+  deliverables: string[];
+}
+
+export interface CareerCounsellingItem {
+  id: string;
+  target: 'parents-and-students' | 'students' | 'parents';
+  title: string;
+  description: string;
+  keyBenefits: string[];
+}
+
+export interface PricingTier {
+  level: string;
+  targetAudience: string;
+  perHourRate: string;
+  monthlyTrackNote: string;
+  features: string[];
+  isPopular?: boolean;
 }
 
 export interface CoreValue {
@@ -41,19 +76,13 @@ export interface FAQItem {
   answer: string;
 }
 
-export interface Testimonial {
-  quote: string;
-  author: string;
-  role: string;
-  location: string;
-}
-
 export interface ConsultationFormData {
   fullName: string;
   email: string;
   phone: string;
-  academicStage: string;
+  stage: string;
   serviceInterest: string;
   preferredMode: 'online' | 'chennai' | 'trichy';
   notes: string;
+  departmentEmail?: 'faculty@pathfinder.com' | 'trainer@pathfinder.com' | 'info@pathfinder.com';
 }

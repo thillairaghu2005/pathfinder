@@ -165,7 +165,10 @@ export default function Orb({
       
       vec3 finalCol = mix(darkCol, lightCol, bgLuminance);
       
-      return extractAlpha(finalCol);
+      float sphereMask = smoothstep(1.02, 0.96, len);
+      float glowAlpha = clamp(max(max(finalCol.r, finalCol.g), finalCol.b), 0.0, 1.0);
+      float alpha = glowAlpha * sphereMask;
+      return vec4(finalCol, alpha);
     }
 
     vec4 mainImage(vec2 fragCoord) {

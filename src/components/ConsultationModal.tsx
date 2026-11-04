@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { X, CheckCircle2, ArrowRight } from 'lucide-react';
+import { X, CheckCircle2, ArrowRight, Clock } from 'lucide-react';
 import { ConsultationFormData } from '../types';
 import { COMPANY_DETAILS } from '../data/content';
 
@@ -19,10 +19,11 @@ export const ConsultationModal: React.FC<ConsultationModalProps> = ({
     fullName: '',
     email: '',
     phone: '',
-    academicStage: 'Undergraduate',
+    stage: 'Undergraduate (B.Com/BBA/B.Tech)',
     serviceInterest: initialServiceId || 'Academic Coaching',
     preferredMode: 'online',
-    notes: ''
+    notes: '',
+    departmentEmail: 'faculty@pathfinder.com'
   });
 
   if (!isOpen) return null;
@@ -37,126 +38,140 @@ export const ConsultationModal: React.FC<ConsultationModalProps> = ({
     onClose();
   };
 
+  const isCorporate = formData.serviceInterest.toLowerCase().includes('corporate') ||
+    formData.serviceInterest.toLowerCase().includes('workshop') ||
+    formData.serviceInterest.toLowerCase().includes('college');
+
+  const destinationEmail = isCorporate ? COMPANY_DETAILS.trainerEmail : COMPANY_DETAILS.facultyEmail;
+
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-foreground/40 backdrop-blur-xs animate-fadeIn">
-      <div 
-        className="relative w-full max-w-xl bg-background rounded-card border border-border p-8 md:p-10 shadow-2xl overflow-y-auto max-h-[90vh]"
+      <div
+        className="relative w-full max-w-xl bg-white rounded-card p-7 md:p-9 shadow-2xl overflow-y-auto max-h-[90vh]"
         onClick={(e) => e.stopPropagation()}
       >
         <button
           onClick={onClose}
-          className="absolute top-6 right-6 p-2 text-secondary hover:text-foreground rounded-btn hover:bg-surface-hover transition-colors"
+          className="absolute top-5 right-5 p-2 text-secondary hover:text-foreground rounded-btn hover:bg-surface-hover transition-colors"
           aria-label="Close modal"
         >
           <X className="w-5 h-5" />
         </button>
 
         {submitted ? (
-          <div className="py-8 text-center space-y-4">
-            <div className="w-12 h-12 bg-surface-hover rounded-full flex items-center justify-center mx-auto text-navy">
-              <CheckCircle2 className="w-8 h-8" />
+          <div className="py-6 text-center space-y-3.5">
+            <div className="w-12 h-12 bg-emerald-50 rounded-full flex items-center justify-center mx-auto text-emerald-600">
+              <CheckCircle2 className="w-7 h-7" />
             </div>
-            <h3 className="font-heading font-bold text-2xl text-foreground">
-              Consultation Request Received
+            <h3 className="font-heading font-bold text-xl text-foreground">
+              Consultation Scheduled
             </h3>
-            <p className="text-secondary text-sm leading-relaxed max-w-md mx-auto">
-              Thank you, <span className="font-medium text-foreground">{formData.fullName}</span>. A senior mentor from {COMPANY_DETAILS.name} will reach out to you at <span className="font-medium text-foreground">{formData.email}</span> within 24 hours.
+            <p className="text-secondary text-xs sm:text-sm leading-relaxed max-w-md mx-auto">
+              Thank you, <span className="font-semibold text-foreground">{formData.fullName}</span>. Your request has been directed to <span className="font-semibold text-navy">{destinationEmail}</span>. Our faculty will reach out to you within 24 hours.
             </p>
-            <div className="pt-4">
+            <div className="pt-1 text-xs text-secondary flex items-center justify-center space-x-2">
+              <Clock className="w-3.5 h-3.5 text-navy" />
+              <span>Mon–Fri Working Days: 9:00 AM – 8:00 PM IST</span>
+            </div>
+            <div className="pt-3">
               <button
                 onClick={handleReset}
-                className="h-[48px] px-7 rounded-btn bg-navy text-white text-sm font-medium hover:bg-navy-hover transition-colors"
+                className="h-[42px] px-7 rounded-btn bg-navy text-white text-xs font-semibold tracking-wide hover:bg-navy-hover transition-colors shadow-xs"
               >
                 Return to Site
               </button>
             </div>
           </div>
         ) : (
-          <div className="space-y-6">
+          <div className="space-y-5">
             <div>
-              <span className="text-xs font-semibold uppercase tracking-widest text-secondary">
+              <span className="text-xs font-semibold uppercase tracking-widest text-gold-dark">
                 Direct Guidance
               </span>
-              <h3 className="font-heading font-bold text-2xl text-foreground tracking-tight mt-1">
+              <h3 className="font-heading font-bold text-xl sm:text-2xl text-foreground tracking-tight mt-0.5">
                 Book a 1-on-1 Consultation
               </h3>
-              <p className="text-secondary text-sm mt-1">
-                Speak directly with an expert mentor. No pressure, no obligations.
+              <p className="text-secondary text-xs mt-0.5">
+                Delivered directly to <strong className="text-navy">{destinationEmail}</strong>. Mon–Fri Working Days.
               </p>
             </div>
 
-            <form onSubmit={handleSubmit} className="space-y-4">
+            <form onSubmit={handleSubmit} className="space-y-3.5">
               <div>
-                <label className="block text-xs font-semibold text-foreground uppercase tracking-wider mb-1.5">
+                <label className="block text-[10px] font-semibold uppercase text-secondary mb-1">
                   Full Name *
                 </label>
                 <input
                   type="text"
                   required
-                  placeholder="e.g. Ananya Sundaram"
+                  placeholder="e.g. S. Meenakshi"
                   value={formData.fullName}
                   onChange={(e) => setFormData({ ...formData, fullName: e.target.value })}
-                  className="w-full h-11 px-4 text-sm bg-background border border-border rounded-btn focus:outline-none focus:border-navy focus:ring-1 focus:ring-navy transition-colors"
+                  className="w-full h-10 px-3.5 text-xs bg-[#FAF8F5] border border-border/80 rounded-btn focus:outline-none focus:border-navy transition-colors"
                 />
               </div>
 
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
                 <div>
-                  <label className="block text-xs font-semibold text-foreground uppercase tracking-wider mb-1.5">
+                  <label className="block text-[10px] font-semibold uppercase text-secondary mb-1">
                     Email Address *
                   </label>
                   <input
                     type="email"
                     required
-                    placeholder="ananya@example.com"
+                    placeholder="name@example.com"
                     value={formData.email}
                     onChange={(e) => setFormData({ ...formData, email: e.target.value })}
-                    className="w-full h-11 px-4 text-sm bg-background border border-border rounded-btn focus:outline-none focus:border-navy focus:ring-1 focus:ring-navy transition-colors"
+                    className="w-full h-10 px-3.5 text-xs bg-[#FAF8F5] border border-border/80 rounded-btn focus:outline-none focus:border-navy transition-colors"
                   />
                 </div>
+
                 <div>
-                  <label className="block text-xs font-semibold text-foreground uppercase tracking-wider mb-1.5">
-                    Phone / WhatsApp *
+                  <label className="block text-[10px] font-semibold uppercase text-secondary mb-1">
+                    Phone Number *
                   </label>
                   <input
                     type="tel"
                     required
-                    placeholder="+91 98765 43210"
+                    placeholder="+91 94440 00000"
                     value={formData.phone}
                     onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
-                    className="w-full h-11 px-4 text-sm bg-background border border-border rounded-btn focus:outline-none focus:border-navy focus:ring-1 focus:ring-navy transition-colors"
+                    className="w-full h-10 px-3.5 text-xs bg-[#FAF8F5] border border-border/80 rounded-btn focus:outline-none focus:border-navy transition-colors"
                   />
                 </div>
               </div>
 
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
                 <div>
-                  <label className="block text-xs font-semibold text-foreground uppercase tracking-wider mb-1.5">
-                    Academic Level
+                  <label className="block text-[10px] font-semibold uppercase text-secondary mb-1">
+                    Program / Service Interest
                   </label>
                   <select
-                    value={formData.academicStage}
-                    onChange={(e) => setFormData({ ...formData, academicStage: e.target.value })}
-                    className="w-full h-11 px-3 text-sm bg-background border border-border rounded-btn focus:outline-none focus:border-navy focus:ring-1 focus:ring-navy transition-colors"
+                    value={formData.serviceInterest}
+                    onChange={(e) => setFormData({ ...formData, serviceInterest: e.target.value })}
+                    className="w-full h-10 px-3 text-xs bg-[#FAF8F5] border border-border/80 rounded-btn focus:outline-none focus:border-navy"
                   >
-                    <option value="Higher Secondary">Higher Secondary (11th / 12th)</option>
-                    <option value="Undergraduate">Undergraduate (B.Com, BBA, B.E., B.Sc, BA)</option>
-                    <option value="Postgraduate">Postgraduate (MBA, M.Com, M.Sc, M.E., MA)</option>
-                    <option value="PhD Candidate">PhD / Doctoral Scholar</option>
-                    <option value="Corporate / Institution">Corporate Team / University College</option>
+                    <option>Commerce & Management (B.Com/MBA)</option>
+                    <option>Engineering & Applied Sciences</option>
+                    <option>Sciences & Mathematics</option>
+                    <option>PhD Mentorship (₹1,500/hr)</option>
+                    <option>Journal Publication (Scopus/WoS)</option>
+                    <option>Parent & Student Career Counselling (₹800)</option>
+                    <option>Corporate Training & Executive Workshops</option>
+                    <option>College Placement Bootcamp</option>
                   </select>
                 </div>
 
                 <div>
-                  <label className="block text-xs font-semibold text-foreground uppercase tracking-wider mb-1.5">
+                  <label className="block text-[10px] font-semibold uppercase text-secondary mb-1">
                     Preferred Mode
                   </label>
                   <select
                     value={formData.preferredMode}
                     onChange={(e) => setFormData({ ...formData, preferredMode: e.target.value as any })}
-                    className="w-full h-11 px-3 text-sm bg-background border border-border rounded-btn focus:outline-none focus:border-navy focus:ring-1 focus:ring-navy transition-colors"
+                    className="w-full h-10 px-3 text-xs bg-[#FAF8F5] border border-border/80 rounded-btn focus:outline-none focus:border-navy"
                   >
-                    <option value="online">Online Mentoring (Pan India / Global)</option>
+                    <option value="online">Interactive Live Online</option>
                     <option value="chennai">Chennai Centre (In-Person)</option>
                     <option value="trichy">Trichy Centre (In-Person)</option>
                   </select>
@@ -164,24 +179,24 @@ export const ConsultationModal: React.FC<ConsultationModalProps> = ({
               </div>
 
               <div>
-                <label className="block text-xs font-semibold text-foreground uppercase tracking-wider mb-1.5">
-                  How Can We Support You?
+                <label className="block text-[10px] font-semibold uppercase text-secondary mb-1">
+                  Specific Learning Goal / Inquiry
                 </label>
                 <textarea
                   rows={3}
-                  placeholder="Share details about the subject, dissertation topic, or specific exam goals..."
+                  placeholder="Share subjects, upcoming exam dates, research topic, or questions..."
                   value={formData.notes}
                   onChange={(e) => setFormData({ ...formData, notes: e.target.value })}
-                  className="w-full p-3 text-sm bg-background border border-border rounded-btn focus:outline-none focus:border-navy focus:ring-1 focus:ring-navy transition-colors"
+                  className="w-full p-3 text-xs bg-[#FAF8F5] border border-border/80 rounded-btn focus:outline-none focus:border-navy resize-none"
                 />
               </div>
 
-              <div className="pt-2">
+              <div className="pt-1">
                 <button
                   type="submit"
-                  className="w-full h-[48px] px-7 rounded-btn bg-navy text-white text-sm font-medium hover:bg-navy-hover transition-colors flex items-center justify-center space-x-2"
+                  className="w-full h-11 rounded-btn bg-navy text-white text-xs font-semibold tracking-wide hover:bg-navy-hover transition-colors shadow-xs flex items-center justify-center space-x-2"
                 >
-                  <span>Submit Consultation Request</span>
+                  <span>Submit to {destinationEmail}</span>
                   <ArrowRight className="w-4 h-4" />
                 </button>
               </div>

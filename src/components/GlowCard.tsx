@@ -15,7 +15,7 @@ export const GlowCard: React.FC<GlowCardProps> = ({
   className = "",
   onClick,
   glowColor = "217 91 60",
-  backgroundColor = "#FFFFFF",
+  backgroundColor = "#EFEFEF", // Lite grey background
   colors = ["#1D4ED8", "#3B82F6", "#60A5FA"],
 }) => {
   return (

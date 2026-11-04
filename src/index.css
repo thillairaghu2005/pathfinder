@@ -13,7 +13,7 @@
   }
 
   body {
-    background-color: #FFFFFF;
+    background-color: #FAF8F5;
     color: #111111;
     font-family: var(--font-sans);
     line-height: 1.7;
@@ -34,7 +34,7 @@
 
 @layer utilities {
   .border-thin {
-    border-color: #ECECEC;
+    border-color: #E8E2D5;
   }
 
   .focus-ring {
@@ -44,8 +44,8 @@
 
 /* Invisible scrollbar across browsers */
 html, body {
-  scrollbar-width: none; /* Firefox */
-  -ms-overflow-style: none; /* IE and Edge */
+  scrollbar-width: none;
+  -ms-overflow-style: none;
 }
 
 ::-webkit-scrollbar {
@@ -54,10 +54,3 @@ html, body {
   display: none;
   background: transparent;
 }
-
-::-webkit-scrollbar-track,
-::-webkit-scrollbar-thumb {
-  background: transparent;
-  border: none;
-}
-

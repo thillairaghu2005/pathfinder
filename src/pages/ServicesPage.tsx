@@ -26,24 +26,24 @@ export const ServicesPage: React.FC<ServicesPageProps> = ({
     { id: 'career', label: 'Career Mentoring' },
   ];
 
-  const filteredServices = activeTab === 'all'
+  const filteredServices: ServiceItem[] = activeTab === 'all'
     ? SERVICES_DATA
-    : SERVICES_DATA.filter(s => s.category === activeTab);
+    : SERVICES_DATA.filter((s: ServiceItem) => s.category === activeTab);
 
   return (
-    <div className="w-full space-y-16 md:space-y-24 pb-24 animate-fadeIn">
+    <div className="w-full space-y-16 md:space-y-24 pb-20 animate-fadeIn">
       {/* Header */}
-      <section className="pt-20 md:pt-32 max-w-grid mx-auto px-6 sm:px-8 lg:px-12">
-        <div className="max-w-content space-y-6">
+      <section className="pt-20 md:pt-28 max-w-grid mx-auto px-6 sm:px-8 lg:px-12">
+        <div className="max-w-2xl space-y-4">
           <span className="text-xs font-semibold uppercase tracking-widest text-secondary">
             Programs & Specialisations
           </span>
 
-          <h1 className="font-heading font-extrabold text-4xl sm:text-6xl lg:text-7xl text-foreground tracking-tight leading-tight">
+          <h1 className="font-heading font-bold text-3xl sm:text-5xl md:text-6xl text-foreground tracking-tight leading-[1.12]">
             Academic Coaching & Professional Training
           </h1>
 
-          <p className="text-secondary text-lg md:text-xl leading-relaxed-custom max-w-prose-custom">
+          <p className="text-secondary text-sm md:text-base leading-relaxed">
             From foundational school coaching to doctoral thesis mentoring and executive corporate workshops, built around subject mastery and humane guidance.
           </p>
         </div>
@@ -51,16 +51,16 @@ export const ServicesPage: React.FC<ServicesPageProps> = ({
 
       {/* Filter Tabs */}
       <section className="max-w-grid mx-auto px-6 sm:px-8 lg:px-12">
-        <div className="flex items-center space-x-2 overflow-x-auto pb-4 scrollbar-none">
+        <div className="flex items-center space-x-2 overflow-x-auto pb-2 scrollbar-none">
           {tabs.map((tab) => {
             const isActive = activeTab === tab.id;
             return (
               <button
                 key={tab.id}
                 onClick={() => setActiveTab(tab.id)}
-                className={`px-5 py-2.5 rounded-btn text-xs font-semibold tracking-wide whitespace-nowrap transition-all duration-200 ${isActive
+                className={`px-4 py-2 rounded-full text-xs font-medium tracking-tight whitespace-nowrap transition-all duration-200 ${isActive
                   ? 'bg-navy text-white shadow-xs'
-                  : 'bg-background border border-border text-secondary hover:bg-surface-hover hover:text-foreground'
+                  : 'bg-[#EFEFEF] text-secondary hover:bg-[#E5E7EB] hover:text-foreground shadow-xs'
                   }`}
               >
                 {tab.label}
@@ -70,53 +70,52 @@ export const ServicesPage: React.FC<ServicesPageProps> = ({
         </div>
       </section>
 
-      {/* Services Grid (White GlowCards with Crisp Dark Typography & Thin Blue Gradient Stroke) */}
+      {/* Services Grid (Lite Grey GlowCards bg-[#EFEFEF]) */}
       <section className="max-w-grid mx-auto px-6 sm:px-8 lg:px-12">
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-          {filteredServices.map((service) => (
-            <GlowCard key={service.id} className="h-full relative overflow-hidden">
-              {/* Background Image Layer (11.png, 22.png, 33.png, 44.png) */}
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+          {filteredServices.map((service: ServiceItem) => (
+            <GlowCard key={service.id} backgroundColor="#EFEFEF" className="h-full relative overflow-hidden shadow-xs">
               {service.bgImage && (
                 <div className="absolute inset-0 pointer-events-none z-0 overflow-hidden">
                   <img
                     src={service.bgImage}
                     alt={service.title}
-                    className="absolute inset-0 w-full h-full object-contain pointer-events-none mix-blend-multiply opacity-20"
+                    className="absolute inset-0 w-full h-full object-contain pointer-events-none mix-blend-multiply opacity-15"
                     style={{
                       transform: 'translate(12%, 10%) scale(1.8)',
                       transformOrigin: 'bottom right',
                     }}
                   />
-                  <div className="absolute inset-0 bg-gradient-to-r from-white via-white/80 to-transparent z-1" />
+                  <div className="absolute inset-0 bg-gradient-to-r from-[#EFEFEF] via-[#EFEFEF]/80 to-transparent z-1" />
                 </div>
               )}
 
-              <div className="space-y-6 flex flex-col justify-between h-full relative z-10">
-                <div className="space-y-4">
+              <div className="space-y-5 flex flex-col justify-between h-full relative z-10">
+                <div className="space-y-3.5">
                   <div className="flex items-center justify-between">
-                    <span className="text-xs font-bold uppercase tracking-widest text-navy">
+                    <span className="text-xs font-semibold uppercase tracking-widest text-navy bg-white/80 px-2.5 py-1 rounded">
                       {service.categoryLabel}
                     </span>
                     <span className="text-xs text-secondary font-medium">
-                      Higher Secondary to PhD
+                      1-on-1 & Modular
                     </span>
                   </div>
 
-                  <h3 className="font-heading font-bold text-2xl text-foreground tracking-tight">
+                  <h3 className="font-heading font-bold text-xl sm:text-2xl text-foreground tracking-tight">
                     {service.title}
                   </h3>
 
-                  <p className="text-secondary text-sm md:text-base leading-relaxed">
-                    {service.shortDesc}
+                  <p className="text-secondary text-xs sm:text-sm leading-relaxed">
+                    {service.fullDesc}
                   </p>
 
-                  <div className="pt-4 space-y-2">
-                    <span className="text-xs font-semibold text-foreground uppercase tracking-wider block">
-                      Target Learners
+                  <div className="space-y-1.5 pt-1">
+                    <span className="text-[10px] font-semibold text-secondary uppercase tracking-wider block">
+                      Audience:
                     </span>
                     <div className="flex flex-wrap gap-1.5">
-                      {service.audience.slice(0, 3).map((item, idx) => (
-                        <span key={idx} className="text-xs px-3 py-1 bg-surface-muted/90 border border-border text-secondary rounded-btn backdrop-blur-xs">
+                      {service.audience.map((item: string, idx: number) => (
+                        <span key={idx} className="text-[11px] px-2.5 py-0.5 bg-white/70 text-secondary rounded-full font-medium">
                           {item}
                         </span>
                       ))}
@@ -124,49 +123,26 @@ export const ServicesPage: React.FC<ServicesPageProps> = ({
                   </div>
                 </div>
 
-                <div className="pt-4 flex items-center justify-between mt-auto">
+                <div className="pt-2 flex items-center justify-between">
                   <button
                     onClick={() => onSelectService(service)}
-                    className="text-xs font-semibold text-foreground hover:text-navy transition-colors flex items-center space-x-1.5"
+                    className="text-xs font-semibold text-foreground hover:text-navy transition-colors"
                   >
-                    <span>Detailed Overview</span>
-                    <ArrowRight className="w-3.5 h-3.5" />
+                    View Program Details
                   </button>
 
                   <button
                     onClick={onBookConsultation}
-                    className="h-[40px] px-5 rounded-btn bg-navy text-white text-xs font-medium hover:bg-navy-hover transition-colors"
+                    className="h-[38px] px-5 rounded-btn bg-navy text-white text-xs font-medium hover:bg-navy-hover transition-colors flex items-center space-x-1.5 shadow-xs"
                   >
-                    Book Session
+                    <span>Book Session</span>
+                    <ArrowRight className="w-3.5 h-3.5" />
                   </button>
                 </div>
               </div>
             </GlowCard>
           ))}
         </div>
-      </section>
-
-      {/* Custom Program Callout (Featured Navy Blue Card #14213D) */}
-      <section className="max-w-grid mx-auto px-6 sm:px-8 lg:px-12">
-        <GlowCard backgroundColor="#14213D" className="w-full shadow-xl">
-          <div className="space-y-4 p-2">
-            <h3 className="font-heading font-extrabold text-2xl md:text-3xl text-white tracking-tight">
-              Need a Customized Curriculum or Institutional Workshop?
-            </h3>
-            <p className="text-white/80 text-sm md:text-base leading-relaxed max-w-prose-custom">
-              Pathfinders designs bespoke learning tracks for specific corporate skill gaps, university departments, and placement drives across Tamil Nadu and beyond.
-            </p>
-            <div className="pt-2">
-              <button
-                onClick={onBookConsultation}
-                className="h-[48px] px-7 rounded-btn bg-white text-navy text-sm font-bold hover:bg-white/90 transition-colors inline-flex items-center space-x-2 shadow-xs"
-              >
-                <span>Discuss Scope & Pricing</span>
-                <ArrowRight className="w-4 h-4" />
-              </button>
-            </div>
-          </div>
-        </GlowCard>
       </section>
     </div>
   );
